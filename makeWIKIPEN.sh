@@ -49,7 +49,11 @@ iconv -f utf8 -t euc-jp catalogs.temp > catalogs.txt || exit $?
 perl -i -npe "s/^DIR = WIKIP/DIR = WIKIPEN/;s/^PACKAGE = wikipedia-fpw-20091202/PACKAGE = EPWING-Wikipedia-EN-$DATE/" Makefile || exit $?
 #perform convert
 PERL_USE_UNSAFE_INC=1 $CURDIR/bin/fpwmake catalogs || exit $?
-PERL_USE_UNSAFE_INC=1 $CURDIR/bin/fpwmake -j$NCPU
+PERL_USE_UNSAFE_INC=1 $CURDIR/bin/fpwmake -j$NCPU || exit $?
+PERL_USE_UNSAFE_INC=1 $CURDIR/bin/fpwmake -j$NCPU INSTALLDIR=".." HASH_MOD=BDB FPWLINKMOD=BDB install || exit $?
+perl deldup.pl work/texttag > work/texttag.new || exit $?
+mv work/texttag work/texttag.old || exit $?
+mv work/texttag.new work/texttag || exit $?
 PERL_USE_UNSAFE_INC=1 $CURDIR/bin/fpwmake -j$NCPU INSTALLDIR=".." HASH_MOD=BDB FPWLINKMOD=BDB install || exit $?
 PERL_USE_UNSAFE_INC=1 $CURDIR/bin/fpwmake clean || exit $?
 cd .. || exit $?
@@ -68,7 +72,7 @@ cd .. || exit $?
 #make package
 tar -cf EPWING-Wikipedia-EN-$DATE.tar WIKIPEN || exit $?
 rm -rf WIKIPEN || exit $?
-split -d -a 2 -b 1000M EPWING-Wikipedia-EN-$DATE.tar EPWING-Wikipedia-EN-$DATE.tar. || exit $?
+split -d -a 2 -b 2000M EPWING-Wikipedia-EN-$DATE.tar EPWING-Wikipedia-EN-$DATE.tar. || exit $?
 rm EPWING-Wikipedia-EN-$DATE.tar || exit $?
 ls EPWING-Wikipedia-EN-$DATE.tar.* | xargs -P $NCPU -I {} sh -c 'sha256sum {} > {}.sha256 || exit $?' || exit $?
 cat EPWING-Wikipedia-EN-$DATE.tar.*.sha256 | gzip -c9 > EPWING-Wikipedia-EN-$DATE.sha256.gz || exit $?
