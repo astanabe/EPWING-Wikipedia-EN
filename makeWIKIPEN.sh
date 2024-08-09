@@ -75,3 +75,4 @@ cat EPWING-Wikipedia-EN-$DATE.tar.*.sha256 | gzip -c9 > EPWING-Wikipedia-EN-$DAT
 rm EPWING-Wikipedia-EN-$DATE.tar.*.sha256 || exit $?
 echo -e "gzip -d EPWING-Wikipedia-EN-$DATE.sha256.gz\nsha256sum -c EPWING-Wikipedia-EN-$DATE.sha256" > checkWIKIPEN-$DATE.sh || exit $?
 echo -e "for f in EPWING-Wikipedia-EN-$DATE.tar.*\ndo cat \$f >> EPWING-Wikipedia-EN-$DATE.tar\nrm \$f\ndone" > catWIKIPEN-$DATE.sh || exit $?
+echo "tar -xf EPWING-Wikipedia-EN-$DATE.tar" > extractWIKIPEN-$DATE.sh || exit $?
