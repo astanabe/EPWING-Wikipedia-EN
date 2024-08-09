@@ -51,7 +51,7 @@ perl -i -npe "s/^DIR = WIKIP/DIR = WIKIPEN/;s/^PACKAGE = wikipedia-fpw-20091202/
 PERL_USE_UNSAFE_INC=1 $CURDIR/bin/fpwmake catalogs || exit $?
 PERL_USE_UNSAFE_INC=1 $CURDIR/bin/fpwmake -j$NCPU || exit $?
 PERL_USE_UNSAFE_INC=1 $CURDIR/bin/fpwmake -j$NCPU INSTALLDIR=".." HASH_MOD=BDB FPWLINKMOD=BDB install || exit $?
-perl deldup.pl work/texttag > work/texttag.new || exit $?
+perl delduptag.pl work/texttag > work/texttag.new || exit $?
 mv work/texttag work/texttag.old || exit $?
 mv work/texttag.new work/texttag || exit $?
 PERL_USE_UNSAFE_INC=1 $CURDIR/bin/fpwmake -j$NCPU INSTALLDIR=".." HASH_MOD=BDB FPWLINKMOD=BDB install || exit $?
