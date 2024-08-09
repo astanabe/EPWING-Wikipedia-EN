@@ -1,0 +1,19 @@
+name: makeWIKIPEN
+on: workflow_dispatch
+jobs:
+  makeWIKIPEN:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build
+        run: sh makeWIKIPEN.sh
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            checkWIKIPEN-*.sh
+            catWIKIPEN-*.sh
+            EPWING-Wikipedia-EN-*.sha256.gz
+            EPWING-Wikipedia-EN-*.tar.*
