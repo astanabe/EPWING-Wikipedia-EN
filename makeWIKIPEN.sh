@@ -41,7 +41,7 @@ lbzip2 -d enwiki-latest-pages-articles.xml.bz2 || exit $?
 #change file name
 mv enwiki-latest-pages-articles.xml wikipedia.xml || exit $?
 #modify wikipedia-fpw.conf
-perl -i -npe 's/mimetex\.exe/\/usr\/bin\/mimetex/;s/(math_black.*) 1/$1 0/;s/\^\(Wikipedia\|MediaWiki\|Template\|WP\|Portal\|Category\|Help\|Image\|画像\|ファイル\):/^(Wikipedia|MediaWiki|Template|WP|Portal|Category|Help|Image|File|Special|Module):/' wikipedia-fpw.conf || exit $?
+perl -i -npe 's/mimetex\.exe/\/usr\/bin\/mimetex/;s/(math_black.*) 1/$1 0/;s/\^\(Wikipedia\|MediaWiki\|Template\|WP\|Portal\|Category\|Help\|Image\|画像\|ファイル\):/^(Wikipedia|MediaWiki|Template|WP|Portal|Category|Help|Image|File|Special|Module):/;s/(yomigana.*) 1/$1 0/' wikipedia-fpw.conf || exit $?
 #modify catalogs.txt
 perl -npe 's/(Title\s*=\s*).+/$1"Ｗｉｋｉｐｅｄｉａ（ｅｎ）"/;s/(Directory\s*=\s*)\S+/$1"WIKIPEN"/' catalogs.txt > catalogs.temp || exit $?
 iconv -f utf8 -t euc-jp catalogs.temp > catalogs.txt || exit $?
@@ -49,8 +49,8 @@ iconv -f utf8 -t euc-jp catalogs.temp > catalogs.txt || exit $?
 perl -i -npe "s/^DIR = WIKIP/DIR = WIKIPEN/;s/^PACKAGE = wikipedia-fpw-20091202/PACKAGE = EPWING-Wikipedia-EN-$DATE/" Makefile || exit $?
 #perform convert
 PERL_USE_UNSAFE_INC=1 $CURDIR/bin/fpwmake catalogs || exit $?
-PERL_USE_UNSAFE_INC=1 $CURDIR/bin/fpwmake -j$NCPU || exit $?
-PERL_USE_UNSAFE_INC=1 $CURDIR/bin/fpwmake -j$NCPU INSTALLDIR=".." HASH_MOD=BDB FPWLINKMOD=BDB install || exit $?
+PERL_USE_UNSAFE_INC=1 $CURDIR/bin/fpwmake -j$NCPU all
+PERL_USE_UNSAFE_INC=1 $CURDIR/bin/fpwmake -j$NCPU INSTALLDIR=".." HASH_MOD=BDB FPWLINKMOD=BDB install
 perl delduptag.pl work/texttag > work/texttag.new || exit $?
 mv work/texttag work/texttag.old || exit $?
 mv work/texttag.new work/texttag || exit $?
