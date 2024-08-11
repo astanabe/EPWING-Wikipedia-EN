@@ -80,3 +80,14 @@ rm EPWING-Wikipedia-EN-$DATE.tar.*.sha256 || exit $?
 echo -e "gzip -d EPWING-Wikipedia-EN-$DATE.sha256.gz\nsha256sum -c EPWING-Wikipedia-EN-$DATE.sha256" > checkWIKIPEN-$DATE.sh || exit $?
 echo -e "for f in EPWING-Wikipedia-EN-$DATE.tar.*\ndo cat \$f >> EPWING-Wikipedia-EN-$DATE.tar\nrm \$f\ndone" > catWIKIPEN-$DATE.sh || exit $?
 echo "tar -xf EPWING-Wikipedia-EN-$DATE.tar" > extractWIKIPEN-$DATE.sh || exit $?
+# Store variables
+user_name="astanabe"
+repo_name="EPWING-Wikipedia-EN"
+tag_name=`echo "$DATE" | perl -npe 's/(\d{4})(\d\d)(\d\d)/v0.1.$1.$2.$3/'`
+# Make download scripts
+for asset_file in checkWIKIPEN-*.sh catWIKIPEN-*.sh extractWIKIPEN-*.sh ${repo_name}-*.sha256.gz ${repo_name}-*.tar.*
+do echo "wget -c https://github.com/${user_name}/${repo_name}/releases/download/${tag_name}/${asset_file}" >> wgetWIKIPEN-$DATE.sh
+echo "curl -L -O -C - https://github.com/${user_name}/${repo_name}/releases/download/${tag_name}/${asset_file}" >> curlWIKIPEN-$DATE.sh
+done
+# Save tag name
+echo "${tag_name}" > tag_name.txt
