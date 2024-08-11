@@ -32,8 +32,8 @@ wget -nv -c https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pages-articl
 #retrieve SHA1 checksum file
 wget -nv -c https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-sha1sums.txt || exit $?
 #modify checksum file
-perl -i -npe 's/(\senwiki)-(\d{8})-/$1-latest-/;if($.==1){print(STDERR "$2\n")}' enwiki-latest-sha1sums.txt 2> date.txt || exit $?
-DATE=`cat date.txt` || exit $?
+perl -i -npe 's/(\senwiki)-(\d{8})-/$1-latest-/;if($.==1){print(STDERR "$2\n")}' enwiki-latest-sha1sums.txt 2> ../date.txt || exit $?
+DATE=`cat ../date.txt` || exit $?
 #test SHA1 checksum
 sha1sum --ignore-missing -c enwiki-latest-sha1sums.txt || exit $?
 #extract XML
@@ -69,25 +69,3 @@ rm -rf gai16_xbm || exit $?
 cd WIKIPEN || exit $?
 $CURDIR/bin/ebzip -z -f -l 5 || exit $?
 cd .. || exit $?
-#make package
-tar -cf EPWING-Wikipedia-EN-$DATE.tar WIKIPEN || exit $?
-rm -rf WIKIPEN || exit $?
-split -d -a 2 -b 2000M EPWING-Wikipedia-EN-$DATE.tar EPWING-Wikipedia-EN-$DATE.tar. || exit $?
-rm EPWING-Wikipedia-EN-$DATE.tar || exit $?
-ls EPWING-Wikipedia-EN-$DATE.tar.* | xargs -P $NCPU -I {} sh -c 'sha256sum {} > {}.sha256 || exit $?' || exit $?
-cat EPWING-Wikipedia-EN-$DATE.tar.*.sha256 | gzip -c9 > EPWING-Wikipedia-EN-$DATE.sha256.gz || exit $?
-rm EPWING-Wikipedia-EN-$DATE.tar.*.sha256 || exit $?
-echo -e "gzip -d EPWING-Wikipedia-EN-$DATE.sha256.gz\nsha256sum -c EPWING-Wikipedia-EN-$DATE.sha256" > checkWIKIPEN-$DATE.sh || exit $?
-echo -e "for f in EPWING-Wikipedia-EN-$DATE.tar.*\ndo cat \$f >> EPWING-Wikipedia-EN-$DATE.tar\nrm \$f\ndone" > catWIKIPEN-$DATE.sh || exit $?
-echo "tar -xf EPWING-Wikipedia-EN-$DATE.tar" > extractWIKIPEN-$DATE.sh || exit $?
-# Store variables
-user_name="astanabe"
-repo_name="EPWING-Wikipedia-EN"
-tag_name=`echo "$DATE" | perl -npe 's/(\d{4})(\d\d)(\d\d)/v0.1.$1.$2.$3/'`
-# Make download scripts
-for asset_file in checkWIKIPEN-*.sh catWIKIPEN-*.sh extractWIKIPEN-*.sh ${repo_name}-*.sha256.gz ${repo_name}-*.tar.*
-do echo "wget -c https://github.com/${user_name}/${repo_name}/releases/download/${tag_name}/${asset_file}" >> wgetWIKIPEN-$DATE.sh
-echo "curl -L -O -C - https://github.com/${user_name}/${repo_name}/releases/download/${tag_name}/${asset_file}" >> curlWIKIPEN-$DATE.sh
-done
-# Save tag name
-echo "${tag_name}" > tag_name.txt
