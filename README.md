@@ -8,10 +8,21 @@ This script is based on the following products.
 - [wikipedia-fpw](http://green.ribbon.to/~ikazuhiro/dic/wikipedia-fpw.html)
 - [Dump data of en.wikipedia.org](https://dumps.wikimedia.org/enwiki/)
 
+## Prerequisites
+
+1. sh
+2. curl or wget
+3. gzip
+4. sha256sum
+5. cat
+6. tar
+7. EPWING-compatible electronic dictionary viewer such as EBView, EBWin, EBMac or EBPocket
+
 ## How to use
 
-1. Download latest [release files of this package](https://github.com/astanabe/EPWING-Wikipedia-EN/releases)
-2. Run file integrity check script `checkWIKIPEN-XXXXXXXX.sh`
-3. Run file concatenation script `catWIKIPEN-XXXXXXXX.sh`
-4. Run file extraction script `extractWIKIPEN-XXXXXXXX.sh`
-5. Then, you will get JIS X 4081 (EPWING-compatible) format electronic dictionary as `WIKIPEN` directory
+1. Download `curlWIKIPEN-XXXXXXXX.sh` or `wgetEIKIPEN-XXXXXXXX.sh` from [latest release](https://github.com/astanabe/EPWING-Wikipedia-EN/releases/latest)
+2. Run `curlWIKIPEN-XXXXXXXX.sh` or `wgetEIKIPEN-XXXXXXXX.sh` in order to download release files
+3. Run file integrity check script `checkWIKIPEN-XXXXXXXX.sh`
+4. Run file concatenation script `catWIKIPEN-XXXXXXXX.sh`
+5. Run file extraction script `extractWIKIPEN-XXXXXXXX.sh`
+6. Then, you will get JIS X 4081 (EPWING-compatible) format electronic dictionary as `WIKIPEN` directory
