@@ -47,11 +47,13 @@ perl -npe 's/(Title\s*=\s*).+/$1"Ｗｉｋｉｐｅｄｉａ（ｅｎ）"/;s/(Di
 iconv -f utf8 -t euc-jp catalogs.temp > catalogs.txt || exit $?
 #modify Makefile
 perl -i -npe "s/^DIR = WIKIP/DIR = WIKIPEN/;s/^PACKAGE = wikipedia-fpw-20091202/PACKAGE = EPWING-Wikipedia-EN-$DATE/" Makefile || exit $?
+#modify FreePWING/Tag.pm
+perl -i -npe 's/\^\[0\-9A\-Za\-z_\\\:\\\-\]\*\$/^[0-9A-Za-z_\\:\\-\\=]*\$/' FreePWING/Tag.pm || exit $?
 #perform convert
 PERL_USE_UNSAFE_INC=1 $CURDIR/bin/fpwmake catalogs || exit $?
 PERL_USE_UNSAFE_INC=1 $CURDIR/bin/fpwmake -j$NCPU all
 PERL_USE_UNSAFE_INC=1 $CURDIR/bin/fpwmake -j$NCPU INSTALLDIR=".." HASH_MOD=BDB FPWLINKMOD=BDB install
-perl delduptag.pl work/texttag > work/texttag.new || exit $?
+perl ../delduptag.pl work/texttag > work/texttag.new || exit $?
 mv work/texttag work/texttag.old || exit $?
 mv work/texttag.new work/texttag || exit $?
 PERL_USE_UNSAFE_INC=1 $CURDIR/bin/fpwmake -j$NCPU INSTALLDIR=".." HASH_MOD=BDB FPWLINKMOD=BDB install || exit $?
