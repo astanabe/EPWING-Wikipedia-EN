@@ -20,8 +20,8 @@ This script is based on the following products.
 
 ## How to get dictionary from this repository
 
-1. Download `curlWIKIPEN-XXXXXXXX.sh` or `wgetEIKIPEN-XXXXXXXX.sh` from [latest release](https://github.com/astanabe/EPWING-Wikipedia-EN/releases/latest)
-2. Run `curlWIKIPEN-XXXXXXXX.sh` or `wgetEIKIPEN-XXXXXXXX.sh` in order to download release files
+1. Download `curlWIKIPEN-XXXXXXXX.sh` or `wgetWIKIPEN-XXXXXXXX.sh` from [latest release](https://github.com/astanabe/EPWING-Wikipedia-EN/releases/latest)
+2. Run `curlWIKIPEN-XXXXXXXX.sh` or `wgetWIKIPEN-XXXXXXXX.sh` in order to download release files
 3. Run file integrity check script `checkWIKIPEN-XXXXXXXX.sh`
 4. Run file concatenation script `catWIKIPEN-XXXXXXXX.sh`
 5. Run file extraction script `extractWIKIPEN-XXXXXXXX.sh`
