@@ -42,6 +42,7 @@ lbzip2 -d enwiki-latest-pages-articles.xml.bz2 || exit $?
 mv enwiki-latest-pages-articles.xml wikipedia.xml || exit $?
 #modify xml
 perl -i -npe 's/(&lt;math display=block&gt;)(.+)&lt;\/MATH&gt;/$1$2&lt;\/math&gt;/' wikipedia.xml || exit $?
+perl -i -npe 's/&lt;math id=&quot;&lt;math&amp;gt;\\log A_t = \\frac{-C_1 (T - T_{\\text{ref}})}{C_2 + (T - T_{\\text{ref}})}&lt;\/math&amp;gt;&quot;&gt;/&lt;math&gt;/' wikipedia.xml || exit $?
 #modify wikipedia-fpw.conf
 perl -i -npe 's/mimetex\.exe/\/usr\/bin\/mimetex/;s/(math_black.*) 1/$1 0/;s/\^\(Wikipedia\|MediaWiki\|Template\|WP\|Portal\|Category\|Help\|Image\|画像\|ファイル\):/^(Wikipedia|MediaWiki|Template|WP|Portal|Category|Help|Image|File|Special|Module):/;s/(yomigana.*) 1/$1 0/' wikipedia-fpw.conf || exit $?
 #modify catalogs.txt
